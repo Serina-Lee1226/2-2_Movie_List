@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movie List</title>
+  <!-- CSS:Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Movie List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <!-- 有aria請注意！別刪掉！像最後一行是漢堡功能(三條線) -->
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="file:///Users/yenting/Desktop/Alpha%20camp/2-2_Movie_List/2-2MovieFavorite.html#">Favorite</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+<!-- Container 先建立 -->
+  <div class="container mt-5">
+    <!-- Inline Form: Search Bar -->
+    <div class="row">
+      <form class="form-inline" id='search-form'>
+        <label class="sr-only" for="inlineFormInputName2">Search Keyword</label>
+        <!-- sr-only:螢幕閱讀者才會看到 -->
+        <input type="text" class="form-control mb-2 mr-sm-2" id="search-input" placeholder="請輸入關鍵字...">
+      
+        <button type="submit" class="btn btn-primary mb-2" id='search-summit'>Search</button>
+      </form>
+    </div>
+    <!-- 內容本體: data-panel -->
+    <div class="row" id='data-panel'>
+      <!-- Render Movie List：先做一個Html的card來試試-->
+      <!-- col-sm-3 獨立在最外層！！不加在card後面！差很多！！
+      但是 mb-2 有必要獨立出來嗎？ 我在JS把他們寫在一起了，看起來是沒影響。-->
+      <!-- <div class="col-sm-3"> 
+        <div class="mb-2">
+          <div class="card">
+            <img src="https://img1.mydrivers.com/img/20200814/s_7d82206cf14e41cb9164ae49904fa3f6.jpg" class="card-img-top"
+              alt="Movie Pic">
+            <div class="card-body">
+              <h5 class="card-title">Movie title</h5>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-primary btn-show-movie" data-toggle="modal" data-target="#movie-modal">More</button> -->
+              <!-- 上面在 button 新增 data-toggle、data-target：Modal(彈出視窗)功能，至於實際 Modal 內容我們貼在最下面(資料引入區前) -->
+              <!-- <button class="btn btn-info btn-add-favorite">
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+
+  </div>
+<!-- Modal：彈出視窗 -->
+<!-- 注意：下面一行的id要與上方「data-target」的內容相通 -->
+  <div class="modal fade" id="movie-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- 多：modal-lg，讓modal變大 -->
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="movie-modal-title">Movie title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="movie-modal-body">
+          <div class="row">
+            <div class="col-sm-8" id='movie-modal-image'>
+              <img src="https://img1.mydrivers.com/img/20200814/s_7d82206cf14e41cb9164ae49904fa3f6.jpg" alt="modal-image" class='img-fluid'>
+              <!-- 上方img「class='img-fluid'」讓圖片大小符合空間大小(也可以寫：w-100) -->
+            </div>
+            <div class="col-sm-4">
+              <p><em id='movie-modal-date'>release Date:2000-12-24 </em></p>
+              <p id='movie-modal-description'>This is a movie</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Pagination ：分頁器 -->
+  <!-- ID加在標籤 ul 上耶！ 不是 nav 上！-->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" id="paginator">
+      <!-- JS -->
+      <!-- function: getMoviesByPage(page) => 讓每頁資料只有12筆、
+        paginatorPage(moviesAmount) => 動態產生「幾個」分頁器、
+        addEventListener：onPaginatorClicked => 當點擊分頁超連結時，render出對應的電影資料-->
+    </ul>
+  </nav>
+
+  
+  <!-- API:axios(先) -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- JS:引入我的JS檔案（後） -->
+  <script src='2-2MovieList.js'></script>
+  <!-- JS:JQuery Popper Bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+    integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+</body>
+</html>
